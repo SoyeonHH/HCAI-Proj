@@ -1,0 +1,6 @@
+*.pt
+*.csd
+*.pkl
+*.csv
+__pycache__
+*.txt
