@@ -23,7 +23,7 @@ class MSADataset(Dataset):
             print("Dataset not defined correctly")
             exit()
         
-        self.data, self.word2id, _ = dataset.get_data(config.mode)
+        self.data, self.word2id, self.pretrained_emb = dataset.get_data(config.mode)
         self.len = len(self.data)
 
         config.word2id = self.word2id

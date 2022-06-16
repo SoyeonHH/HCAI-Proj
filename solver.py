@@ -238,7 +238,7 @@ class Solver(object):
                     best_results = results
                     best_truths = truths
                     print(f"Saved model at pre_trained_models/MM.pt!")
-                    save_model(model, self.modality)
+                    save_model(model, self.modality + '_mosei')
             else:
                 patience -= 1
                 if patience == 0:
@@ -252,9 +252,9 @@ class Solver(object):
 
         # save_hidden(self.H, self.modality)
         # save_hidden(self.H_out, self.modality + '_out')
-        save_hidden(self.H_t, 'text_embedding')
-        save_hidden(self.H_a, 'acoustic_embedding')
-        save_hidden(self.H_v, 'visual_embedding')
-        save_hidden(self.H_out, 'fusion_embedding')
+        save_hidden(self.H_t, 'text_embedding_mosei')
+        save_hidden(self.H_a, 'acoustic_embedding_mosei')
+        save_hidden(self.H_v, 'visual_embedding_mosei')
+        save_hidden(self.H_out, 'fusion_embedding_mosei')
         sys.stdout.flush()
 

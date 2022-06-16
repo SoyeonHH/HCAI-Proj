@@ -57,7 +57,7 @@ class Fusion(nn.Module):
 
         fusion, preds = self.fusion_prj(torch.cat([text, acoustic, visual], dim=1))
 
-        return enc_word, acoustic, visual, fusion, preds
+        return text, acoustic, visual, fusion, preds
     
 
 class Text(nn.Module):

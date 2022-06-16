@@ -55,16 +55,16 @@ def get_args():
                         help='number of layers in LSTM encoders (default: 1)')
     parser.add_argument('--cpc_layers', type=int, default=1,
                         help='number of layers in CPC NCE estimator (default: 1)')
-    parser.add_argument('--d_vh', type=int, default=50,
+    parser.add_argument('--d_vh', type=int, default=768,
                         help='hidden size in visual rnn')
-    parser.add_argument('--d_ah', type=int, default=50,
+    parser.add_argument('--d_ah', type=int, default=768,
                         help='hidden size in acoustic rnn')
-    parser.add_argument('--d_vout', type=int, default=50,
+    parser.add_argument('--d_vout', type=int, default=768,
                         help='output size in visual rnn')
-    parser.add_argument('--d_aout', type=int, default=50,
+    parser.add_argument('--d_aout', type=int, default=768,
                         help='output size in acoustic rnn')
     parser.add_argument('--bidirectional', action='store_true', help='Whether to use bidirectional rnn')
-    parser.add_argument('--d_prjh', type=int, default=50,
+    parser.add_argument('--d_prjh', type=int, default=768,
                         help='hidden size in projection network')
     parser.add_argument('--pretrain_emb', type=int, default=768,
                         help='dimension of pretrained model output')
