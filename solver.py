@@ -155,6 +155,7 @@ class Solver(object):
             
             results = []
             truths = []
+            H_t, H_a, H_v, H_out = [], [], [], []
 
             with torch.no_grad():
                 for batch in loader:
@@ -169,7 +170,7 @@ class Solver(object):
                     batch_size = lengths.size(0) # bert_sent in size (bs, seq_len, emb_size)
 
                     if self.modality == 'fusion':
-                        H_t, H_a, H_v, H_out, preds = model(text, vision, audio, vlens, alens, 
+                        _H_t, _H_a, _H_v, _H_out, preds = model(text, vision, audio, vlens, alens, 
                                         bert_sent, bert_sent_type, bert_sent_mask, y)
                     elif self.modality == 'text': 
                         H, H_out, preds = model(text, bert_sent, bert_sent_type, bert_sent_mask, y)
@@ -177,11 +178,11 @@ class Solver(object):
                         H, H_out, preds = model(audio, alens, y)
                     else:
                         H, H_out, preds = model(vision, vlens, y)
-                    
-                    self.H_t.extend(H_t.cpu().detach().numpy())
-                    self.H_a.extend(H_a.cpu().detach().numpy())
-                    self.H_v.extend(H_v.cpu().detach().numpy())
-                    self.H_out.extend(H_out.cpu().detach().numpy())
+
+                    H_t.extend(_H_t.cpu().detach().numpy())
+                    H_a.extend(_H_a.cpu().detach().numpy())
+                    H_v.extend(_H_v.cpu().detach().numpy())
+                    H_out.extend(_H_out.cpu().detach().numpy())
                     
                     if self.hp.dataset in ['mosi', 'mosei', 'mosei_senti'] and test:
                         criterion = nn.L1Loss()
@@ -196,7 +197,7 @@ class Solver(object):
 
             results = torch.cat(results)
             truths = torch.cat(truths)
-            return avg_loss, results, truths
+            return avg_loss, results, truths, H_t, H_a, H_v, H_out
 
         best_valid = 1e8
         best_mae = 1e8
@@ -209,8 +210,8 @@ class Solver(object):
 
             train_loss = train(model, optimizer, criterion)
 
-            val_loss, _, _ = evaluate(model, criterion, test=False)
-            test_loss, results, truths = evaluate(model, criterion, test=True)
+            val_loss, _, _, _, _, _, _ = evaluate(model, criterion, test=False)
+            test_loss, results, truths, H_t, H_a, H_v, H_out, = evaluate(model, criterion, test=True)
 
             end = time.time()
             duration = end-start
@@ -252,9 +253,9 @@ class Solver(object):
 
         # save_hidden(self.H, self.modality)
         # save_hidden(self.H_out, self.modality + '_out')
-        save_hidden(self.H_t, 'text_embedding_mosei')
-        save_hidden(self.H_a, 'acoustic_embedding_mosei')
-        save_hidden(self.H_v, 'visual_embedding_mosei')
-        save_hidden(self.H_out, 'fusion_embedding_mosei')
+        save_hidden(H_t, 'text_embedding_mosi')
+        save_hidden(H_a, 'acoustic_embedding_mosi')
+        save_hidden(H_v, 'visual_embedding_mosi')
+        save_hidden(H_out, 'fusion_embedding_mosi')
         sys.stdout.flush()
 
