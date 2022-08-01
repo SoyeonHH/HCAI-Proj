@@ -1,4 +1,4 @@
-# HCAI-Proj
+# gam-mosi
 
 ## Introduction
 This is the Human Centered AI Project in Ajou University. The title is `Non-verbal Features Interpretation for Multimodal Sentiment Analysis`. In this project, there are two implementation tasks. The first one is implementation of generalized additive model (GAM) that use regression splines to plot non-linear relationship between linguistic feature and non-verbal features. This can be automatically implemented using `pyGAM` package . The other thing is the interpretation that provide utterance-level feature importance representation and visualization the attention for the predictions. It was implemented using `Captum` , which provide generic implementation of integrated gradients that can be used with any PyTorch model.
